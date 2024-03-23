@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 
 const ModeToggle = () => {
-  const [darkMode, setDarkMode] = useState(() => {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
 
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
+  }, [isDarkMode]);
 
   const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
+    setIsDarkMode((prevMode) => !prevMode);
     document.documentElement.classList.toggle("dark");
   };
 
@@ -19,7 +19,7 @@ const ModeToggle = () => {
       onClick={toggleDarkMode}
       className="px-4 py-2 bg-blue-400 rounded-lg dark:bg-dark-background"
     >
-      {darkMode ? "Light Mode" : "Dark Mode"}
+      {isDarkMode ? "Light Mode" : "Dark Mode"}
     </button>
   );
 };
