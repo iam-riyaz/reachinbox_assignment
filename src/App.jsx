@@ -1,16 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from "react";
 
-import './App.css'
-import { AllRoutes } from './routes/AllRoutes'
+import { AllRoutes } from "./routes/AllRoutes";
+import ModeToggle from "./Components/ModeToggle";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <>
-      <AllRoutes/>
+      <div className="dark:bg-black dark:text-white">
+        <AllRoutes />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
