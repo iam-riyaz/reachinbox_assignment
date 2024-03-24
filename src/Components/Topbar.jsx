@@ -30,19 +30,19 @@ function Topbar() {
         <div className="flex  gap-[22px] h-[24px] mx-10">
           {/* toggle button */}
 
-          {isDarkMode?<div className="flex border border-gray-500  w-[51px] h-full rounded-[80px] justify-between items-center ">
-                <div onClick={toggleDarkMode} className="rounded-full h-4 w-4 m-1 bg-gray-400 cursor-pointer">
+          {isDarkMode?<div onClick={toggleDarkMode} className="flex border border-gray-500  w-[51px] h-full rounded-[80px] justify-between items-center cursor-pointer">
+                <div  className="rounded-full h-4 w-4 m-1 bg-gray-400 ">
                     
                 </div>
                 <div className="rounded-full m-1">
                 <img src="./light_mode.svg" alt="" />
                 </div>
           </div>:
-          <div className="flex border border-gray-300 bg-[#e9e8e8]  w-[51px] h-full rounded-[80px] justify-between items-center ">
+          <div onClick={toggleDarkMode} className="flex border border-gray-300 bg-[#e9e8e8]  w-[51px] h-full rounded-[80px] justify-between items-center cursor-pointer ">
                 <div className="rounded-full m-1">
                 <img src="./dark_mode.svg" alt="" />
                 </div>
-                <div onClick={toggleDarkMode} className="rounded-full h-4 w-4 m-1 bg-gray-400 cursor-pointer">
+                <div  className="rounded-full h-4 w-4 m-1 bg-gray-400 ">
                     
                 </div>
                 
@@ -51,7 +51,7 @@ function Topbar() {
 
           <div className="flex gap-1 items-center">
             <p className="text-[14px] font-semibold ">Riyaz's Workspace</p>
-            <img className="h-[14px]" src="./arrow_back.svg" alt="" />
+            <img className="h-[14px] text-back" src="./arrow_back.svg" alt="" />
           </div>
         </div>
       </div>
