@@ -5,7 +5,7 @@ import home from "../../public/home.svg";
 function Sidebar() {
   return (
     <div>
-      <div className="min-h-screen  h-[760px] w-[56px] border-r bg-[#ffffffc3] dark:bg-[#181818a7] flex flex-col justify-between  border-r-[#dad9d9] dark:border-r-gray-600">
+      <div className="min-h-screen   w-[56px] border-r bg-[#ffffff] dark:bg-[#181818] flex flex-col justify-between  border-r-[#dad9d9] dark:border-r-gray-600">
         {/* company icon div */}
         <div className="flex justify-center  px-[8px] py-[12px] w-full h-[70px]">
           <img src="./reachInbox.svg" alt="" />
@@ -39,7 +39,7 @@ function Sidebar() {
         </div>
 
         {/* profile avator */}
-        <div className="flex-shrink-0 w-full flex justify-center">
+        <div className=" w-full flex justify-center">
           <img src="./userAvator.svg" alt="" />
         </div>
       </div>

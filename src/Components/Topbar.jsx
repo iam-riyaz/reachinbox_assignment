@@ -15,12 +15,13 @@ function Topbar() {
     
       useEffect(() => {
         document.documentElement.classList.toggle("dark", isDarkMode);
+        localStorage.setItem("darkMode", isDarkMode);
       }, [isDarkMode]);
 
 
   return (
     <div>
-      <div className="h-[64px] border dark:border-[#6b6b6b71]  border-[#dedede] w-full bg-[#dedede3d] dark:bg-[#343a405f] flex justify-between items-center">
+      <div className="h-[64px] border dark:border-[#6b6b6b71]  border-[#dedede] w-full bg-[#f4f4f4] dark:bg-[#232323] flex justify-between items-center">
         <div className="px-[32px]">
           <p className="font-bold text-[16px] text-[#5b5f66] dark:text-[#e7e7e7]">
             Onebox
