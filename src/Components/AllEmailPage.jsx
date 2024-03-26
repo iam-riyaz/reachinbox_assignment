@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EmailList from "./EmailList";
 import RightSideWidgets from "./RightSideWidgets";
 import EmailsViewSection from "./EmailsViewSection";
+import { useSelector } from "react-redux";
+import DeleteModal from "./DeleteModal";
 
 function AllEmailPage() {
+
+
+
+
+
+
+
   return (
     <div>
       <div className=" flex w-full justify-between">
@@ -14,13 +23,14 @@ function AllEmailPage() {
 
         {/* content view section */}
         <div className=" flex-grow border-r border-l  border-[#dcdcdc] dark:border-[#343434]" >
-        <EmailsViewSection/>
+        <EmailsViewSection />
         </div>
 
         {/* right side widgets */}
         <div >
             <RightSideWidgets/>
         </div>
+        
       </div>
     </div>
   );

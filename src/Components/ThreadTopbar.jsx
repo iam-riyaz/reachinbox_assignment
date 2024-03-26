@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function ThreadTopbar() {
+
+ 
   return (
     <div className="w-full  h-[70px]   ">
       <div className="flex justify-between h-full px-[17px] gap-[8px] items-center">
         {/* left div (sender name & email) */}
         <div className="w-[422px] h-[46px] ">
           <p className="font-semibold text-sm dark:text-[#dddddd] text-[#2d2d2d] leading-[20px] ">
-            Riyaz Ahmad
+          Shaw Adley
           </p>
-          <p className="text-[#767676a1] text-xs  ">riyaz@gmail.com</p>
+          <p className="text-[#767676a1] text-xs  ">shaw@getmemeetings.com</p>
         </div>
 
         {/* right div ( status and options) */}

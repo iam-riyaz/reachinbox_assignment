@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ThreadTopbar from "./ThreadTopbar";
 import TimeLineTag from "./TimeLineTag";
 import EmailViewCard from "./EmailViewCard";
+import { useSearchParams } from "react-router-dom";
+import axios from "axios";
+import ReplyBox from "./ReplyBox";
+import { useSelector } from "react-redux";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 function EmailsViewSection() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [threadId, setThreadId] = useState(searchParams.get("threadId"));
+  const [isLoading,setIsLoading]= useState(true)
+
+  const [allThreads, setAllThreads] = useState([]);
+
+  useEffect(() => {
+    setThreadId(searchParams.get("threadId"));
+    setAllThreads([]);
+    setIsLoading(true)
+ 
+  }, [searchParams]);
+
+  useEffect(() => {
+    let token = JSON.parse(localStorage.getItem("token"));
+
+    axios
+      .get(`https://hiring.reachinbox.xyz/api/v1/onebox/messages/${threadId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setAllThreads(res.data.data);
+        setIsLoading(false)
+      
+      });
+  }, [threadId]);
+
   return (
     <div>
+      {!isLoading?
+      <div>
       <ThreadTopbar />
       <div>
         <div
@@ -16,35 +50,18 @@ function EmailsViewSection() {
           <div className="mt-5">
             <TimeLineTag />
             {/* main full email view cards */}
-            <EmailViewCard />
-            <EmailViewCard />
-            
-            
-
-                 
+            {allThreads.map((data) => {
+              return <EmailViewCard data={data} />;
+            })}
 
             {/* Reply btn */}
             <div className="py-5">
-              <div className=" w-[136px] h-[40px] cursor-pointer    rounded flex justify-center items-center bg-gradient-to-r from-blue-700 to-blue-900 gap-4">
-                <svg
-                  width="18"
-                  height="16"
-                  className="text-white"
-                  viewBox="0 0 18 16"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7 4.5V0.5L0 7.5L7 14.5V10.4C12 10.4 15.5 12 18 15.5C17 10.5 14 5.5 7 4.5Z"
-                    fill="currentColor"
-                  />
-                </svg>
-                <p className="text-white">Reply</p>
-              </div>
+              <ReplyBox />
             </div>
           </div>
         </div>
       </div>
+      </div>:<LoadingSkeleton/>}
     </div>
   );
 }

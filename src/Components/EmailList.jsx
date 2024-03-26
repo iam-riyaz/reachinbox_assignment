@@ -1,10 +1,80 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EmailCard from "./EmailCard";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Container } from "postcss";
+import DeleteModal from "./DeleteModal";
 
 function EmailList() {
+  const [showOptions, setShowOptions] = useState(false);
+  const [optionIndex, setOptionIndex] = useState(null);
+  const [deleteBox, setDeleteBox] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isSeleceted, setIsSelected] = useState(searchParams.get("threadId"));
+
+  const allEmail = useSelector((state) => state.allEmails);
+
+  const navigate = useNavigate();
+
+  const onSelect = (data) => {
+    setIsSelected(data.threadId);
+    setShowOptions(false);
+
+    localStorage.setItem("fromEmail", JSON.stringify(data.fromEmail));
+    localStorage.setItem("toEmail", JSON.stringify(data.toEmail));
+
+    navigate({
+      search: `?threadId=${data.threadId}`,
+    });
+  };
+
+  const handleContextMenu = (e, index) => {
+    setOptionIndex(index);
+    console.log("working..........");
+    setShowOptions(true);
+    e.preventDefault(); // Prevent default right-click behavior
+    // Show the custom context menu
+    const contextMenu = document.getElementById("context-menu");
+
+    contextMenu.style.top = `${e.clientY}px`;
+    contextMenu.style.left = `${e.clientX}px`;
+  };
+
+  const handleClickOutside = () => {
+    // Hide the context menu when clicking outside
+    const contextMenu = document.getElementById("context-menu");
+    contextMenu.classList.remove("block");
+    setShowOptions(false);
+  };
+
+  const handleShowDeleteBox = () => {
+    setDeleteBox(!deleteBox);
+  };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "d" || event.key === "D") {
+        setDeleteBox(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   return (
-    <div className="  flex-grow   scroll-w top-[65px] left-[71px]  ">
-      <div style={{height: "calc(100vh - 64px)"}} className="w-[278px]  mx-[8px] overflow-y-auto no-scrollbar    scrollbar-hidden ">
+    <div
+      onClick={handleClickOutside}
+      className="  flex-grow   scroll-w top-[65px] left-[71px]  "
+    >
+      <div
+        style={{ height: "calc(100vh - 64px)" }}
+        className="w-[278px]  mx-[8px] overflow-y-auto no-scrollbar    scrollbar-hidden "
+      >
         <div>
           {/* topsection */}
           <div>
@@ -59,7 +129,7 @@ function EmailList() {
                 <div className="flex justify-start gap-1 items-center">
                   <div className="flex items-center justify-center rounded-xl w-[34px] h-[26px] bg-[#9b9a9a6d] ">
                     <span className="text-[#5c7cfa] text-sm font-semibold">
-                      26
+                      {allEmail.length}
                     </span>
                   </div>
                   <span className="font-semibold text-sm">New Replies</span>
@@ -68,17 +138,17 @@ function EmailList() {
                 <div className="w-[79px] cursor-pointer flex justify-between items-center text-sm font-semibold h-[20px]">
                   <span>Newest </span>
                   <svg
-                class="-mr-1 h-5 w-5 text-gray-700 dark:text-gray-300"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+                    class="-mr-1 h-5 w-5 text-gray-700 dark:text-gray-300"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -86,26 +156,55 @@ function EmailList() {
 
           {/* main list */}
           <div className="flex flex-col justify-center items-center mt-[8px] gap-[2px]">
-            <EmailCard />
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-            <EmailCard/>
-
-            <EmailCard/>
-
+            {allEmail.map((data, index) => {
+              return (
+                <div
+                  onContextMenu={(e) => handleContextMenu(e, index)}
+                  onClick={() => onSelect(data)}
+                  className={
+                    isSeleceted == data.threadId
+                      ? "dark:bg-[#111111] bg-[#f3f3f3]"
+                      : null
+                  }
+                >
+                  <EmailCard data={data} />
+                  {/* Custom context menu */}
+                  <div
+                    id="context-menu"
+                    className={
+                      showOptions && index == optionIndex
+                        ? "absolute z-50 dark:bg-[#151515] bg-[#e2e2e2] border dark:border-[#2a2929] border-gray-200 p-1 "
+                        : "hidden"
+                    }
+                    onClick={handleClickOutside}
+                  >
+                    <ol>
+                      <li className=" dark:border-[#3c3c3c] border-[#c9c9c9] cursor-pointer p-1 hover:dark:bg-[#353535]">
+                        Mark as Unread{" "}
+                      </li>
+                      <li className=" dark:border-[#3c3c3c] border-[#c9c9c9] cursor-pointer p-1 hover:dark:bg-[#353535]">
+                        Edit Lead{" "}
+                      </li>
+                      <li className=" dark:border-[#3c3c3c] border-[#c9c9c9] cursor-pointer p-1 hover:dark:bg-[#353535]">
+                        Set Reminder{" "}
+                      </li>
+                      <li
+                        onClick={() => setDeleteBox(true)}
+                        className=" dark:border-[#3c3c3c] border-[#c9c9c9] cursor-pointer p-1 hover:dark:bg-[#353535]"
+                      >
+                        Delete{" "}
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              );
+            })}
           </div>
+
+          {/* delete box */}
+          {deleteBox ? (
+            <DeleteModal handleShowDeleteBox={handleShowDeleteBox} />
+          ) : null}
         </div>
       </div>
     </div>

@@ -1,17 +1,41 @@
-import React from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 
-function EmailCard() {
+function EmailCard({data}) {
+
+   let {fromEmail,subject,createdAt} = data
+
+   const [customSubject, setCustomSubject]= useState(subject)
+
+   const [createdTime, setCreatedTime]= useState(createdAt)
+
+
+   function truncateString(str) {
+    if (str.length > 20) {
+      return str.substring(0, 35) + '...';
+    } else {
+      return str;
+    }
+  }
+
+  useEffect(()=>{
+    setCustomSubject(truncateString(subject))
+    setCreatedTime(moment(createdTime).format("MMMM D"))
+  
+  },[subject, createdTime])
+
+   
   return (
     <div>
       <div className="w-[255px] h-[100px] py-[12px] px-[8px] dark:border-t border-t-[#525252] dark:border-b dark:border-b-[#111111] border-b-[#cfcfcf] cursor-pointer dark:hover:bg-[#111111] hover:bg-[#f3f3f3]">
         <div>
           <div className="flex justify-between w-full">
-            <p className="font-semibold text-[14px]">Beata@gmail.com</p>
-            <p className="text-[12px] text-[#666666a8]">4 March</p>
+            <p className="font-semibold text-[14px] overflow-hidden">{fromEmail}</p>
+            <p className="text-[12px] text-[#666666a8]">{createdTime}</p>
           </div>
-          <span className="text-sm text-[#999999] leading-[18px]">
-            hello you are selected for the position
-          </span>
+          <p className="text-sm text-[#999999] leading-[18px] overflow-hidden">
+           {customSubject}
+          </p>
 
           <div className="flex gap-4 pt-[6px]">
             {/* lead status */}

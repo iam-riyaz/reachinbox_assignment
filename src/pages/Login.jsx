@@ -6,7 +6,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    console.log("riyaz");
+
     window.location.href =
       "https://hiring.reachinbox.xyz/api/v1/auth/google-login?redirect_to=http://localhost:5173/";
   };
@@ -15,9 +15,10 @@ function Login() {
     const extractTokenFromUrl = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
-
+        
       if (token) {
-        console.log({token})
+        localStorage.setItem("token", JSON.stringify(token))
+   
         navigate("/home");
       }
     };
