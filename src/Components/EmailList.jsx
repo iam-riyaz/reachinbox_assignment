@@ -4,7 +4,7 @@ import EmailCard from "./EmailCard";
 function EmailList() {
   return (
     <div className="  flex-grow   scroll-w top-[65px] left-[71px]  ">
-      <div className="w-[278px] h-[821px] mx-[8px] overflow-y-auto no-scrollbar   border-r border-[#dcdcdc] dark:border-[#343434] scrollbar-hidden ">
+      <div style={{height: "calc(100vh - 64px)"}} className="w-[278px]  mx-[8px] overflow-y-auto no-scrollbar    scrollbar-hidden ">
         <div>
           {/* topsection */}
           <div>
@@ -67,7 +67,18 @@ function EmailList() {
                 {/* sort */}
                 <div className="w-[79px] cursor-pointer flex justify-between items-center text-sm font-semibold h-[20px]">
                   <span>Newest </span>
-                  <span className="text-lg mt-[-10px]">⌄</span>
+                  <svg
+                class="-mr-1 h-5 w-5 text-gray-700 dark:text-gray-300"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                  clip-rule="evenodd"
+                />
+              </svg>
                 </div>
               </div>
             </div>
@@ -77,6 +88,23 @@ function EmailList() {
           <div className="flex flex-col justify-center items-center mt-[8px] gap-[2px]">
             <EmailCard />
             <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+            <EmailCard/>
+
+            <EmailCard/>
+
           </div>
         </div>
       </div>
