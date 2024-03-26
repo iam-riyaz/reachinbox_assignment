@@ -1,6 +1,6 @@
 import React from "react";
 import EmailList from "./EmailList";
-import RightSideWedgets from "./RightSideWedgets";
+import RightSideWidgets from "./RightSideWidgets";
 import EmailsViewSection from "./EmailsViewSection";
 
 function AllEmailPage() {
@@ -19,7 +19,7 @@ function AllEmailPage() {
 
         {/* right side widgets */}
         <div >
-            <RightSideWedgets/>
+            <RightSideWidgets/>
         </div>
       </div>
     </div>
