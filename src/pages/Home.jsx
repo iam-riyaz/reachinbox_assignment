@@ -6,40 +6,36 @@ import Sidebar from "../Components/Sidebar";
 import Topbar from "../Components/Topbar";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {  addEmails } from "../Redux/slice";
+import { addEmails } from "../Redux/slice";
 
 export const Home = () => {
+  const dispath = useDispatch();
+  const emails = useSelector((state) => state.emails);
 
-
-  
-  const dispath= useDispatch()
-  const emails = useSelector((state)=>state.emails)
-
-
-  useEffect(()=>{
-
-
+  useEffect(() => {
     let token = JSON.parse(localStorage.getItem("token"));
-    
-      axios.get("https://hiring.reachinbox.xyz/api/v1/onebox/list",{headers: {Authorization: `Bearer ${token}`}}).then((res)=>{
 
+    const getList = async () => {
+      try {
+        let resetUser = await axios.get(
+          "https://hiring.reachinbox.xyz/api/v1/onebox/reset",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-            
+        console.log(resetUser.data);
 
+        let response = await axios.get(
+          "https://hiring.reachinbox.xyz/api/v1/onebox/list",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        dispath(addEmails(response.data.data));
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-       localStorage.setItem("allEmails", JSON.stringify(res.data.data))
-        
-       dispath(addEmails(res.data.data))
- 
-    }).catch((err)=>{console.log(err)})
-    
-
-    
-  
-
-
-
-  },[])
+    getList()
+  }, []);
 
   return (
     <>
@@ -56,7 +52,7 @@ export const Home = () => {
           {/* main contant */}
           <div className="w-full  mt-[64px] pl-[56px]">
             {/* <BlankOnebox /> */}
-            <AllEmailPage  />
+            <AllEmailPage />
           </div>
         </div>
       </div>
