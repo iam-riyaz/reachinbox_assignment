@@ -7,6 +7,7 @@ import axios from "axios";
 import ReplyBox from "./ReplyBox";
 import { useSelector } from "react-redux";
 import LoadingSkeleton from "./LoadingSkeleton";
+import BlankOnebox from "./BlankOnebox";
 
 function EmailsViewSection() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -38,6 +39,7 @@ function EmailsViewSection() {
 
   return (
     <div>
+      {threadId?<div>
       {!isLoading?
       <div>
       <ThreadTopbar />
@@ -62,6 +64,7 @@ function EmailsViewSection() {
         </div>
       </div>
       </div>:<LoadingSkeleton/>}
+      </div>:<BlankOnebox/>}
     </div>
   );
 }
